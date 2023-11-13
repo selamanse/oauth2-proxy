@@ -6,8 +6,15 @@ title: LinkedIn
 For LinkedIn, the registration steps are:
 
 1.  Create a new project: https://www.linkedin.com/secure/developer
-2.  In the OAuth User Agreement section:
-    - In default scope, select r_basicprofile and r_emailaddress.
-    - In "OAuth 2.0 Redirect URLs", enter `https://internal.yourcompany.com/oauth2/callback`
-3.  Fill in the remaining required fields and Save.
-4.  Take note of the **Consumer Key / API Key** and **Consumer Secret / Secret Key**
+    - Enter an App name
+    - Enter LinkedIn Page
+    - Choose App Logo
+    - Put checkmark on Legal agreement
+    - Click on "Create App"
+2.  In the Auth tab:
+    - Take note of the **Consumer Key / API Key** and **Consumer Secret / Secret Key**
+3.  In the Products tab:
+    - Request access for the "Sign In with LinkedIn using OpenID Connect"
+    - Wait for the Product to show up in "Added products" section
+4.  In the Auth tab
+    - Section "OAuth 2.0 scopes" should display scopes "openid", "profile" and "email" at least

@@ -11,6 +11,7 @@ import (
 )
 
 // LinkedInProvider represents an LinkedIn based Identity Provider
+// https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2
 type LinkedInProvider struct {
 	*ProviderData
 }
