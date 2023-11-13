@@ -72,12 +72,7 @@ func NewLinkedInProvider(p *ProviderData) *LinkedInProvider {
 }
 
 func makeLinkedInHeader(accessToken string) http.Header {
-	// extra headers required by the LinkedIn API when making authenticated requests
-	extraHeaders := map[string]string{
-		acceptHeader:  acceptApplicationJSON,
-		"x-li-format": "json",
-	}
-	return makeAuthorizationHeader(tokenTypeBearer, accessToken, extraHeaders)
+	return makeAuthorizationHeader(tokenTypeBearer, accessToken, nil)
 }
 
 // GetEmailAddress returns the Account email address
@@ -86,8 +81,7 @@ func (p *LinkedInProvider) GetEmailAddress(ctx context.Context, s *sessions.Sess
 		return "", errors.New("missing access token")
 	}
 
-	requestURL := p.ProfileURL.String()
-	json, err := requests.New(requestURL).
+	json, err := requests.New(p.ProfileURL.String()).
 		WithContext(ctx).
 		WithHeaders(makeLinkedInHeader(s.AccessToken)).
 		Do().
