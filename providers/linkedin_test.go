@@ -92,7 +92,18 @@ func TestLinkedInProviderOverrides(t *testing.T) {
 }
 
 func TestLinkedInProviderGetEmailAddress(t *testing.T) {
-	b := testLinkedInBackend(`{"elements":[{"handle~":{"emailAddress": "user@linkedin.com"}}]}`)
+	b := testLinkedInBackend(`
+	{
+		"sub": "782bbtaQ",
+		"name": "John Doe",
+		"given_name": "John",
+		"family_name": "Doe",
+		"picture": "https://media.licdn-ei.com/dms/image/C5F03AQHqK8v7tB1HCQ/profile-displayphoto-shrink_100_100/0/",
+		"locale": "en-US",
+		"email": "doe@email.com",
+		"email_verified": true
+	}
+  `)
 	defer b.Close()
 
 	bURL, _ := url.Parse(b.URL)
@@ -101,7 +112,7 @@ func TestLinkedInProviderGetEmailAddress(t *testing.T) {
 	session := CreateAuthorizedSession()
 	email, err := p.GetEmailAddress(context.Background(), session)
 	assert.Equal(t, nil, err)
-	assert.Equal(t, "user@linkedin.com", email)
+	assert.Equal(t, "doe@email.com", email)
 }
 
 func TestLinkedInProviderGetEmailAddressFailedRequest(t *testing.T) {
