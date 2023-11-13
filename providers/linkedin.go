@@ -95,7 +95,7 @@ func (p *LinkedInProvider) GetEmailAddress(ctx context.Context, s *sessions.Sess
 	if err != nil {
 		return "", err
 	}
-	email, err := json.Get("elements").Get("email").String()
+	email, err := json.Get("email").String()
 	if err != nil {
 		return "", err
 	}
