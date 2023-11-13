@@ -52,9 +52,9 @@ func TestNewLinkedInProvider(t *testing.T) {
 	providerData := NewLinkedInProvider(&ProviderData{}).Data()
 	g.Expect(providerData.ProviderName).To(Equal("LinkedIn"))
 	g.Expect(providerData.LoginURL.String()).To(Equal("https://www.linkedin.com/oauth/v2/authorization"))
-	g.Expect(providerData.RedeemURL.String()).To(Equal("https://www.linkedin.com/uas/oauth2/accessToken"))
-	g.Expect(providerData.ProfileURL.String()).To(Equal("https://api.linkedin.com/v2/emailAddress"))
-	g.Expect(providerData.ValidateURL.String()).To(Equal("https://api.linkedin.com/v2/me"))
+	g.Expect(providerData.RedeemURL.String()).To(Equal("https://www.linkedin.com/oauth2/v2/accessToken"))
+	g.Expect(providerData.ProfileURL.String()).To(Equal("https://api.linkedin.com/v2/userinfo"))
+	g.Expect(providerData.ValidateURL.String()).To(Equal("https://api.linkedin.com/v2/userinfo"))
 	g.Expect(providerData.Scope).To(Equal("r_emailaddress r_liteprofile"))
 }
 

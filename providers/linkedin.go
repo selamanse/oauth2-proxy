@@ -19,7 +19,7 @@ var _ Provider = (*LinkedInProvider)(nil)
 
 const (
 	linkedinProviderName = "LinkedIn"
-	linkedinDefaultScope = "r_emailaddress r_liteprofile"
+	linkedinDefaultScope = "openid email profile"
 )
 
 var (
@@ -36,7 +36,7 @@ var (
 	linkedinDefaultRedeemURL = &url.URL{
 		Scheme: "https",
 		Host:   "www.linkedin.com",
-		Path:   "/uas/oauth2/accessToken",
+		Path:   "/oauth2/v2/accessToken",
 	}
 
 	// Default Profile URL for LinkedIn.
@@ -44,14 +44,14 @@ var (
 	linkedinDefaultProfileURL = &url.URL{
 		Scheme: "https",
 		Host:   "api.linkedin.com",
-		Path:   "/v2/emailAddress",
+		Path:   "/v2/userinfo",
 	}
 
 	// Default Validate URL for LinkedIn.
 	linkedinDefaultValidateURL = &url.URL{
 		Scheme: "https",
 		Host:   "api.linkedin.com",
-		Path:   "/v2/me",
+		Path:   "/v2/userinfo",
 	}
 )
 
@@ -85,7 +85,7 @@ func (p *LinkedInProvider) GetEmailAddress(ctx context.Context, s *sessions.Sess
 		return "", errors.New("missing access token")
 	}
 
-	requestURL := p.ProfileURL.String() + "?q=members&projection=(elements*(handle~))"
+	requestURL := p.ProfileURL.String()
 	json, err := requests.New(requestURL).
 		WithContext(ctx).
 		WithHeaders(makeLinkedInHeader(s.AccessToken)).
@@ -94,7 +94,7 @@ func (p *LinkedInProvider) GetEmailAddress(ctx context.Context, s *sessions.Sess
 	if err != nil {
 		return "", err
 	}
-	email, err := json.Get("elements").GetIndex(0).Get("handle~").Get("emailAddress").String()
+	email, err := json.Get("elements").Get("email").String()
 	if err != nil {
 		return "", err
 	}
