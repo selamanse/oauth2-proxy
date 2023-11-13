@@ -30,7 +30,7 @@ func testLinkedInProvider(hostname string) *LinkedInProvider {
 }
 
 func testLinkedInBackend(payload string) *httptest.Server {
-	path := "/v2/emailAddress"
+	path := "/v2/userinfo"
 
 	return httptest.NewServer(http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +55,7 @@ func TestNewLinkedInProvider(t *testing.T) {
 	g.Expect(providerData.RedeemURL.String()).To(Equal("https://www.linkedin.com/oauth2/v2/accessToken"))
 	g.Expect(providerData.ProfileURL.String()).To(Equal("https://api.linkedin.com/v2/userinfo"))
 	g.Expect(providerData.ValidateURL.String()).To(Equal("https://api.linkedin.com/v2/userinfo"))
-	g.Expect(providerData.Scope).To(Equal("r_emailaddress r_liteprofile"))
+	g.Expect(providerData.Scope).To(Equal("openid email profile"))
 }
 
 func TestLinkedInProviderOverrides(t *testing.T) {
@@ -92,18 +92,7 @@ func TestLinkedInProviderOverrides(t *testing.T) {
 }
 
 func TestLinkedInProviderGetEmailAddress(t *testing.T) {
-	b := testLinkedInBackend(`
-	{
-		"sub": "782bbtaQ",
-		"name": "John Doe",
-		"given_name": "John",
-		"family_name": "Doe",
-		"picture": "https://media.licdn-ei.com/dms/image/C5F03AQHqK8v7tB1HCQ/profile-displayphoto-shrink_100_100/0/",
-		"locale": "en-US",
-		"email": "doe@email.com",
-		"email_verified": true
-	}
-  `)
+	b := testLinkedInBackend(`{"email":"doe@email.com"}`)
 	defer b.Close()
 
 	bURL, _ := url.Parse(b.URL)
