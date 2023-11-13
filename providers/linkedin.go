@@ -10,7 +10,7 @@ import (
 	"github.com/oauth2-proxy/oauth2-proxy/v7/pkg/requests"
 )
 
-// LinkedInProvider represents an LinkedIn based Identity Provider
+// LinkedInProvider represents an LinkedIn based OpenID Connect Provider
 // https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2
 type LinkedInProvider struct {
 	*ProviderData
